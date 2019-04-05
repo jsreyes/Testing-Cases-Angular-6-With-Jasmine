@@ -1,15 +1,25 @@
-import { TodoFormComponent } from './todo-form.component'; 
+import { TodoFormComponent } from './todo-form.component';
+// Se instancia el formulario que se necesita
+import {FormBuilder} from '@angular/forms';
 
 describe('TodoFormComponent', () => {
-  var component: TodoFormComponent; 
+  let component: TodoFormComponent;
 
   beforeEach(() => {
-
+    component = new TodoFormComponent(new FormBuilder());
   });
 
-  it('', () => {
+  // Prueba que valida si el formulario tiene los controls correspondientes
+  it('should create a form with 2 controls', () => {
+    expect(component.form.contains('name')).toBeTruthy();
+    expect(component.form.contains('email')).toBeTruthy();
   });
 
-  it('', () => {
+  // Prueba que valida que el campo nombre sea requerido
+  it('should make the name control required', () => {
+    const control = component.form.get('name');
+    control.setValue('');
+    // Función que valida el required
+    expect(control.valid).toBeFalsy();
   });
 });
