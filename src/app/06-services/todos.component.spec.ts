@@ -16,6 +16,7 @@ describe('TodosComponent', () => {
     component = new TodosComponent(service);
   });
 
+  // Tests to .getTodos()
   it('should set todos property with the items returned from the server', () => {
     const todos = [1, 2, 3];
     // Podemos espiar un servicio o una función (Arrange)
@@ -30,6 +31,7 @@ describe('TodosComponent', () => {
     expect(component.todos.length).toBe(3); // Llamada especifica (Assert)
   });
 
+  // Tests to .add()
   it('should call the server to save the changes when a new todo item is added', () => {
 
     const spy = spyOn(service, 'add').and.callFake(t => {
@@ -60,4 +62,22 @@ describe('TodosComponent', () => {
 
     expect(component.message).toBe(error);
   });
+
+  // Tests to .delete()
+  it('should call the server to delete a todo item if the user confirms', () => {
+    // Arrange
+    // Espia el objeto de confirmacion
+    spyOn(window, 'confirm').and.returnValue(true);
+    // Espia el servicio de eliminación
+    const spy = spyOn(service, 'delete').and.returnValue(Observable.empty());
+
+    // Act
+    component.delete(1);
+
+    // Assert
+    // expect(spy).toHaveBeenCalled(); // General form
+    expect(spy).toHaveBeenCalledWith(1); // Specific form
+  });
+
+
 });
